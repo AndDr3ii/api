@@ -10,12 +10,12 @@ paths:
     get:
       operationId: getLastTrade
       summary: Último precio de una acción
-      description: Obtén el último precio de una acción específica.
+      description: Obtén el último precio de una acción específica en tiempo real.
       parameters:
         - name: ticker
           in: path
           required: true
-          description: Símbolo del ticker de la acción (por ejemplo, MSFT).
+          description: Símbolo del ticker de la acción (por ejemplo, MSFT, AAPL).
           schema:
             type: string
         - name: apiKey
@@ -26,7 +26,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Respuesta exitosa con datos de la acción.
+          description: Respuesta exitosa con datos del precio de la acción.
           content:
             application/json:
               schema:
@@ -34,7 +34,7 @@ paths:
                 properties:
                   status:
                     type: string
-                    description: Estado de la respuesta.
+                    description: Estado de la respuesta (OK o error).
                   ticker:
                     type: string
                     description: Símbolo del ticker consultado.
@@ -43,14 +43,19 @@ paths:
                     properties:
                       price:
                         type: number
-                        description: Último precio de la acción.
-        '429': # Manejo del error de límite de uso
-          description: Límite de uso alcanzado (Too Many Requests).
+                        description: Último precio de la acción en USD.
+                      timestamp:
+                        type: string
+                        description: Marca de tiempo del último precio.
+        '429':
+          description: Límite de solicitudes alcanzado (Too Many Requests).
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  message:
+                  error:
                     type: string
-                    description: Mensaje de error.
+                    description: Descripción del error.
+        '400':
+          description: Error en la solicitud.
