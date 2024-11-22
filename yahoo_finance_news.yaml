@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.1.0
 info:
   title: Yahoo Finance News
   description: Obtén noticias relacionadas con un símbolo de acción.
@@ -8,6 +8,7 @@ servers:
 paths:
   /news/v2/get-newsfeed:
     get:
+      operationId: getNewsBySymbol  # Identificador único añadido
       summary: Obtener noticias por símbolo
       description: Devuelve noticias relacionadas con un símbolo bursátil.
       parameters:
