@@ -1,0 +1,60 @@
+openapi: 3.1.0
+info:
+  title: Polygon Stock API
+  description: Consulta datos de acciones en tiempo real usando Polygon.io.
+  version: 1.0.0
+servers:
+  - url: https://api.polygon.io
+paths:
+  /v2/last/trade/{ticker}:
+    get:
+      operationId: getLastTrade
+      summary: Último precio de una acción
+      description: Obtén el último precio de una acción específica.
+      parameters:
+        - name: ticker
+          in: path
+          required: true
+          description: Símbolo del ticker de la acción (por ejemplo, MSFT).
+          schema:
+            type: string
+        - name: apiKey
+          in: query
+          required: true
+          description: Tu clave API de Polygon.io.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Respuesta exitosa con datos de la acción.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Estado de la respuesta.
+                  ticker:
+                    type: string
+                    description: Símbolo del ticker consultado.
+                  last:
+                    type: object
+                    properties:
+                      price:
+                        type: number
+                        description: Último precio de la acción.
+        '429': # Manejo del error de límite de uso
+          description: Límite de uso alcanzado (Too Many Requests).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje de error.
+components:
+  retries:
+    max: 3 # Número máximo de reintentos
+    delay: 60 # Tiempo de espera (en segundos) entre reintentos
