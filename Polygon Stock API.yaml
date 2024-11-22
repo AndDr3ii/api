@@ -54,7 +54,3 @@ paths:
                   message:
                     type: string
                     description: Mensaje de error.
-components:
-  retries:
-    max: 3 # Número máximo de reintentos
-    delay: 60 # Tiempo de espera (en segundos) entre reintentos
