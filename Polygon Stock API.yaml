@@ -47,15 +47,3 @@ paths:
                       timestamp:
                         type: string
                         description: Marca de tiempo del último precio.
-        '429':
-          description: Límite de solicitudes alcanzado (Too Many Requests).
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    description: Descripción del error.
-        '400':
-          description: Error en la solicitud.
