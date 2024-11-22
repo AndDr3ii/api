@@ -1,16 +1,16 @@
 openapi: 3.1.0
 info:
   title: Polygon Stock API
-  description: Consulta datos históricos usando Polygon.io.
+  description: Consulta datos de acciones en tiempo real usando Polygon.io.
   version: 1.0.0
 servers:
   - url: https://api.polygon.io
 paths:
-  /v2/aggs/ticker/{ticker}/prev:
+  /v2/last/trade/{ticker}:
     get:
-      operationId: getPreviousClose
-      summary: Datos del cierre previo de una acción
-      description: Devuelve datos del cierre del día anterior de una acción.
+      operationId: getLastTrade
+      summary: Último precio de una acción
+      description: Obtén el último precio de una acción específica en tiempo real.
       parameters:
         - name: ticker
           in: path
@@ -26,31 +26,34 @@ paths:
             type: string
       responses:
         '200':
-          description: Respuesta exitosa con datos del cierre previo.
+          description: Respuesta exitosa con datos del precio de la acción.
           content:
             application/json:
               schema:
                 type: object
                 properties:
+                  status:
+                    type: string
+                    description: Estado de la respuesta (OK o error).
                   ticker:
                     type: string
-                    description: Símbolo del ticker.
-                  queryCount:
-                    type: integer
-                    description: Número de resultados encontrados.
-                  results:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        close:
-                          type: number
-                          description: Precio de cierre.
-                        volume:
-                          type: integer
-                          description: Volumen de acciones.
-                        timestamp:
-                          type: integer
-                          description: Marca de tiempo del cierre.
+                    description: Símbolo del ticker consultado.
+                  last:
+                    type: object
+                    properties:
+                      price:
+                        type: number
+                        description: Último precio de la acción en USD.
+                      timestamp:
+                        type: string
+                        description: Marca de tiempo del último precio.
         '401':
-          description: Error de autorización.
+          description: Error de autorización por clave API inválida.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Descripción del error.
