@@ -47,3 +47,13 @@ paths:
                       timestamp:
                         type: string
                         description: Marca de tiempo del último precio.
+        '401': # Error de autorización
+          description: Clave API inválida o falta de permisos.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Descripción del error.
