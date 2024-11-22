@@ -1,0 +1,46 @@
+openapi: 3.0.0
+info:
+  title: Yahoo Finance News
+  description: Obtén noticias relacionadas con un símbolo de acción.
+  version: 1.0.0
+servers:
+  - url: https://apidojo-yahoo-finance-v1.p.rapidapi.com
+paths:
+  /news/v2/get-newsfeed:
+    get:
+      summary: Obtener noticias por símbolo
+      description: Devuelve noticias relacionadas con un símbolo bursátil.
+      parameters:
+        - name: category
+          in: query
+          required: true
+          description: El símbolo del mercado (por ejemplo, MSFT, AAPL).
+          schema:
+            type: string
+        - name: region
+          in: query
+          required: false
+          description: La región del mercado (por ejemplo, US).
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Respuesta exitosa con noticias.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                          description: Título de la noticia.
+                        link:
+                          type: string
+                          description: Enlace a la noticia.
+        '400':
+          description: Solicitud inválida.
